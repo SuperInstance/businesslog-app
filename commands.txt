@@ -1,0 +1,4 @@
+CLICK 600 400
+TYPE Capitaine AI is online and ready to execute.
+WAIT 2
+TYPE Ready for next instruction.
