@@ -1,15 +1,20 @@
-# BusinessLog App
+# businesslog-app
 
-Structured application-level logging for Python — zero external dependencies.
+**Structured application-level logging for Python** — zero external dependencies. Console, file, memory, and custom handlers with composable filters.
 
-## Features
+## What This Gives You
 
-- **Structured log entries** with levels, fields, tags, and source tracking
-- **Flexible handlers** — console, file, in-memory buffer, or custom callback
+- **Structured entries** — levels, fields, tags, source tracking, and trace context
+- **Flexible handlers** — console, file, in-memory buffer, custom callback
 - **Composable filters** — by level, tags, field values, or arbitrary predicates
 - **Multiple formatters** — JSON, plain text, or colored terminal output
-- **Context support** — push/pop contextual fields that merge into every log entry
-- **Fully typed** — dataclasses + type hints, no external deps beyond pytest
+- **Context support** — push/pop contextual fields that merge into every entry
+
+## Installation
+
+```bash
+pip install businesslog-app
+```
 
 ## Quick Start
 
@@ -27,22 +32,10 @@ with log.context(request_id="abc123"):
 log.error("Connection lost", fields={"host": "db.internal"}, tags=["database", "critical"])
 ```
 
-## Architecture
-
-```
-businesslog_app/
-├── __init__.py      # Public API re-exports
-├── entry.py         # LogEntry + LogLevel
-├── logger.py        # AppLogger with context support
-├── handler.py       # Console, File, Memory, Callback handlers
-├── filter.py        # Level, Tag, Field, Predicate, Composite filters
-└── formatter.py     # JSON, Text, Colored formatters
-```
-
 ## Handlers
 
 | Handler | Description |
-|---|---|
+|---------|-------------|
 | `ConsoleHandler` | Write to stderr (or any stream) |
 | `FileHandler` | Append to a file, auto-creates parent dirs |
 | `MemoryHandler` | Buffer in memory with optional max size |
@@ -50,18 +43,13 @@ businesslog_app/
 
 ## Filters
 
-| Filter | Description |
-|---|---|
-| `LevelFilter` | Minimum log level |
-| `TagFilter` | Match by tags (any/all/none modes) |
-| `FieldFilter` | Match required field values or existence |
-| `PredicateFilter` | Custom function |
-| `CompositeFilter` | Combine filters with AND/OR logic |
+Chain filters with `&` (and) / `|` (or): `LevelFilter(LogLevel.ERROR) & TagFilter("database")`
 
-## Running Tests
+## Testing
 
 ```bash
-python -m pytest tests/ -q
+pip install -e .
+pytest
 ```
 
 ## License
